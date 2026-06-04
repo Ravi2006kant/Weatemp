@@ -13,5 +13,3 @@ class WeatherService {
   }
 }
 
-
-ef5b352737664ae795f110723260306
