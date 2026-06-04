@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1025226942632",
+    "project_id": "weatemp-143",
+    "storage_bucket": "weatemp-143.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025226942632:android:c6850b09241d5ec4cdba9d",
+        "android_client_info": {
+          "package_name": "com.example.weatemp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHKSuIhzW9kBmcI5sXMc9rMS0twyb5Vg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
