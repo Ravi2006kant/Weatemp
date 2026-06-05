@@ -49,25 +49,17 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () async {
+                      onPressed: () {
                         // FirebaseFirestore.instance.collection("tasks").add({
                         //   "title": taskController.text,
                         // });
-                        weatherData = await WeatherService().getWeather();
-                        print("logs are showing here");
+                  
+                    
                       },
                       child: Text("Add"),
                     ),
 
-                    Text(weatherData),
-                    // ListView.separated(
-                    //   itemBuilder: (context, index) {
-                    //     return ListTile();
-                    //   },
-                    //   separatorBuilder: (context, index) {
-                    //     return Divider();
-                    //   },
-                    //   itemCount: 5,
+                    
                     // ),
                   ],
                 ),
