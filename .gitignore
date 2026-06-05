@@ -45,5 +45,4 @@ app.*.map.json
 /android/app/release
 
 # this is how we ignore the file or folder just add the name 
-#secrets file api and passwords
-lib/secrets
+#secrets file api and password
