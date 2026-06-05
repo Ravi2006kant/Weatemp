@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:weatemp/firebase_options.dart';
 import 'package:weatemp/pages/home.dart';
 import 'package:weatemp/pages/login.dart';
+import 'package:weatemp/pages/register.dart';
 import 'package:weatemp/theme/theme.dart';
 import 'package:weatemp/theme/theme_provider.dart';
 

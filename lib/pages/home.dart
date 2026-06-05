@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatemp/components/Co_appbar.dart';
 import 'package:weatemp/components/botnav.dart';
-
 import 'package:weatemp/components/floatButton.dart';
 import 'package:weatemp/pages/dashboard.dart';
 import 'package:weatemp/pages/forecast.dart';
@@ -15,8 +14,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Widget> nav = [Dashboard(), Forecast(), Setting()];
+  
   int ind = 0;
+  List<Widget> nav = [Dashboard(), Forecast(), Setting()];
   @override
   void itemTap(int index) {
     setState(() {
@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(
@@ -38,9 +39,8 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
       ),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-
       body: nav.elementAt(ind),
+
       floatingActionButton: Floatbutton(),
 
       bottomNavigationBar: Botnavigation(index: ind, ontap: itemTap),

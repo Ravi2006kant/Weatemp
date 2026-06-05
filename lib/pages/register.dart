@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weatemp/pages/home.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -13,6 +15,7 @@ Future<http.Response> getResponse() async {
 }
 
 class _RegisterState extends State<Register> {
+  final TextEditingController nameControl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +24,37 @@ class _RegisterState extends State<Register> {
           height: 100,
           width: 100,
           color: Colors.blue,
-          child: Text("hello"),
+          child: Column(
+            children: [
+              TextField(
+                controller: nameControl,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final pref = await SharedPreferences.getInstance();
+                  await pref.setString('name', nameControl.text);
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("value saved")));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
+                child: Text("Save"),
+              ),
+            ],
+          ),
         ),
       ),
     );
