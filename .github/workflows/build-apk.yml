@@ -11,25 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - name: Install Flutter
-        run: |
-          git clone https://github.com/flutter/flutter.git --depth 1 -b stable
-          echo "$PWD/flutter/bin" >> $GITHUB_PATH
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
-      - name: Verify Flutter
-        run: flutter --version
+      - run: flutter pub get
 
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter build apk --release
 
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
