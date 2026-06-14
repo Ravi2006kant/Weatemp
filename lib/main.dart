@@ -1,12 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatemp/firebase_options.dart';
 import 'package:weatemp/pages/home.dart';
-import 'package:weatemp/pages/login.dart';
-import 'package:weatemp/pages/register.dart';
-import 'package:weatemp/theme/theme.dart';
 import 'package:weatemp/theme/theme_provider.dart';
 
 void main() async {
@@ -30,7 +26,6 @@ class MainApp extends StatelessWidget {
         create: (context) => ThemeProvider(),
         child: Home(),
       ),
-
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weatemp/components/Co_appbar.dart';
 import 'package:weatemp/components/botnav.dart';
 import 'package:weatemp/components/floatButton.dart';
 import 'package:weatemp/pages/dashboard.dart';
@@ -14,7 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
   int ind = 0;
   List<Widget> nav = [Dashboard(), Forecast(), Setting()];
   @override
