@@ -45,38 +45,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-/*
-location 
-degree 
-weather
-feels like 
---------------
-humidity 
-wind 
-visiblity 
-
-bottom navigation home forecase settings
-
-
-page 3 search city screen 
-
-london tokyo mumbai
-
-
-page 4 forecast screen
-
- mon   weather temp
-
-sat weather temp
-
-
-
-setting screen 
-
-dark mode 
-
-clucius farhenheigh
-
-use current lovation 
-*/
