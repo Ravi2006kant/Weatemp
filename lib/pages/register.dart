@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:weatemp/pages/home.dart';
 
 class Register extends StatefulWidget {
@@ -41,8 +41,6 @@ class _RegisterState extends State<Register> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final pref = await SharedPreferences.getInstance();
-                  await pref.setString('name', nameControl.text);
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text("value saved")));
