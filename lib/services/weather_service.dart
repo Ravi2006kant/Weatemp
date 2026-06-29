@@ -20,7 +20,7 @@ class WeatherService {
       "temp": data['current']['temp_c'], // can show data now from here
       "weather": data['current']['condition']['text'],
       "feels": data['current']['feelslike_c'],
-      "time": data['location']['localtime'],
+      "time": data["location"]["localtime"].split(" ")[1],
     };
     // print(data['current']['humidity']);
     // print(data['current']['wind_kph']);

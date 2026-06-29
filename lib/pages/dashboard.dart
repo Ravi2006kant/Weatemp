@@ -15,22 +15,29 @@ class _DashboardState extends State<Dashboard> {
 
   bool isLoading = false;
   double? temp;
-
+  String? time;
   String? weather;
-  String? feels;
+  double? feels;
   String? humidity;
   String? wind;
 
   Future<void> fetchTemp() async {
-    final result = await WeatherService().getWeather(
-      city.text,
-    ); // this will call the getweather function from the weather service and store the result in result variable
+    print("Button Pressed");
+
+    final result = await WeatherService().getWeather(city.text);
+
+    print(result);
+
     setState(() {
-      isLoading = true;
       temp = result['temp'];
       weather = result['weather'];
       feels = result['feels'];
+      time = result['time'];
+
+      print("setState called");
     });
+
+    print("fetchTemp finished");
   }
 
   @override
@@ -70,7 +77,7 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 children: [
                   Inforow(
-                    color: Colors.blue,
+                    color: Colors.white,
                     iconData: Icons.location_pin,
                     title: "City Name",
                     weatData: city.text == "" ? "--" : city.text.toUpperCase(),
@@ -84,6 +91,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                   Inforow(
+                    color: Colors.lightBlue,
                     iconData: Icons.cloud_rounded,
                     title: "Weather",
                     weatData: weather == null ? "--" : weather.toString(),
@@ -91,73 +99,38 @@ class _DashboardState extends State<Dashboard> {
                   ),
 
                   Inforow(
+                    color: Colors.amber,
                     iconData: Icons.stacked_line_chart_rounded,
                     title: "Feels like",
                     weatData: feels == null ? "--" : feels.toString(),
                   ),
 
                   Inforow(
+                    color: Colors.deepPurple.shade400,
                     iconData: Icons.alarm_outlined,
                     title: "Updated at",
-                    weatData: DateTime.now().toString(),
+                    weatData: time == null ? "--" : time.toString(),
                   ),
                 ],
               ),
             ),
+            // Expanded(
+            //   child: GridView.builder(
+            //     itemCount: 4,
+            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 2,
+            //     ),
+            //     itemBuilder: (context, index) {
+            //       return Container(color: Colors.red);
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-  /*      Expanded(
-              // height: 200,
-              // color: Colors.white,
-              // margin: EdgeInsets.all(10),
-              // padding: EdgeInsets.only(left: 15, top: 15),
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Text("hello", style: TextStyle(color: Colors.red));
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(color: Colors.black, endIndent: 15);
-                },
-                itemCount: 5,
-              ),
-            ),
-
-            Container(
-              width: 100,
-              height: 100,
-              color: Colors.lightBlue,
-              child: GridView.builder(
-                itemCount: 4,
-
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.red,
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            
-            
-            */
-
-
-
-
 
 /*
 
