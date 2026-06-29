@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:weatemp/firebase_options.dart';
+import 'package:provider/provider.dart';
 import 'package:weatemp/pages/home.dart';
-import 'package:weatemp/pages/login.dart';
+import 'package:weatemp/pages/setting.dart';
+import 'package:weatemp/theme/theme.dart';
 import 'package:weatemp/theme/theme_provider.dart';
 
 void main() async {
+  runApp(const MainApp());
   // WidgetsFlutterBinding();
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // runApp(
@@ -14,7 +15,6 @@ void main() async {
   //     child: MainApp(),
   //   ),
   // );
-  const MainApp();
 }
 
 class MainApp extends StatelessWidget {
@@ -22,8 +22,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Login(),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: MaterialApp(
+        home: Home(),
+        debugShowCheckedModeBanner: false,
+        theme: darkMode,
+      ),
     );
     //   home: ChangeNotifierProvider(
     //     create: (context) => ThemeProvider(),

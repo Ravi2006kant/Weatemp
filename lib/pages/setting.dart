@@ -10,11 +10,15 @@ class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Column(
         children: [
-          SizedBox(height: 10,),
-          Tile(title: Text("Dark Mode")),
+          SizedBox(height: 10),
+          Tile(
+            title: Text("Dark Mode"),
+            onChanged: (p0) {
+              Provider.of<ThemeProvider>(context, listen: false).toggle();
+            },
+          ),
           Tile(title: Text("Change Temperature Unit(C/F)")),
           Tile(title: Text("Use Current Location")),
         ],

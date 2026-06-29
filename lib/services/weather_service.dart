@@ -4,15 +4,24 @@ import 'package:http/http.dart' as http;
 import 'package:weatemp/secrets/apikey.dart';
 
 class WeatherService {
-  String apik = Apikey.api;
+  String apik = Apikey.api; //api is stored here
 
-  Future<void> getWeather(String city) async {
-    final url = "https://api.weatherapi.com/v1/current.json?key=$apik&q=$city";
-    Uri uri = Uri.parse(url);
-    var response = await http.get(uri);
-    var data = jsonDecode(response.body);
-    return data['current']['temp_c'];
-    
+  Future<Map<String, dynamic>> getWeather(String city) async {
+    final url =
+        "https://api.weatherapi.com/v1/current.json?key=$apik&q=$city"; // server address stored
+    Uri uri = Uri.parse(url); // this will convert into the http format then
+    var response = await http.get(
+      uri,
+    ); // http calls the server go to the endpoint through thte help of api then repsonse stored in repsonse
+    var data = jsonDecode(
+      response.body,
+    ); //jsondecode will now decode the data into flutter / dart object
+    return {
+      "temp": data['current']['temp_c'], // can show data now from here
+      "weather": data['current']['condition']['text'],
+      "feels": data['current']['feelslike_c'],
+      "time": data['location']['localtime'],
+    };
     // print(data['current']['humidity']);
     // print(data['current']['wind_kph']);
     // print(data['current']['vis_km']);

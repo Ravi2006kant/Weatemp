@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
       ),
       body: nav.elementAt(ind),
 
-      floatingActionButton: Floatbutton(),
+      // floatingActionButton: Floatbutton(),
 
       bottomNavigationBar: Botnavigation(index: ind, ontap: itemTap),
     );

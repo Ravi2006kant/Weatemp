@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Tile extends StatefulWidget {
   Text title;
-  Tile({super.key, required this.title});
+  Tile({super.key, required this.title, Function(bool)? onChanged});
 
   @override
   State<Tile> createState() => _TileState();
