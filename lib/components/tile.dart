@@ -1,36 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weatemp/theme/theme_provider.dart';
 
-class Tile extends StatefulWidget {
-  Text title;
-  Tile({super.key, required this.title, Function(bool)? onChanged});
+class Tile extends StatelessWidget {
+  final Text title;
+  final bool value;
+  final Function(bool)? onChange;
 
-  @override
-  State<Tile> createState() => _TileState();
-}
+  const Tile({
+    super.key,
+    required this.title,
+    required this.value,
+    this.onChange,
+  });
 
-class _TileState extends State<Tile> {
-  bool val = false;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          title: widget.title,
+          title: title,
           trailing: CupertinoSwitch(
-            value: val,
+            value: value,
             activeTrackColor: Colors.blue.shade400,
-            onChanged: (value) {
-              setState(() {
-                val = !val;
-              });
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text("Clicked")));
-            },
+            onChanged: onChange,
           ),
         ),
-        Divider(color: Colors.grey, indent: 10, endIndent: 10),
+        const Divider(
+          color: Colors.grey,
+          indent: 10,
+          endIndent: 10,
+        ),
       ],
     );
   }

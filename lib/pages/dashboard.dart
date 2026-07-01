@@ -42,6 +42,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -80,6 +81,7 @@ class _DashboardState extends State<Dashboard> {
                     color: Colors.white,
                     iconData: Icons.location_pin,
                     title: "City Name",
+                    
                     weatData: city.text == "" ? "--" : city.text.toUpperCase(),
                   ),
 

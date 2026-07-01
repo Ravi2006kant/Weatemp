@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatemp/components/tile.dart';
@@ -12,15 +11,19 @@ class Setting extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
+
           Tile(
-            title: Text("Dark Mode"),
-            onChanged: (p0) {
-              Provider.of<ThemeProvider>(context, listen: false).toggle();
+            title: const Text("Dark Mode"),
+            value: context.watch<ThemeProvider>().isdark,
+            onChange: (value) {
+              context.read<ThemeProvider>().toggle();
             },
           ),
-          Tile(title: Text("Change Temperature Unit(C/F)")),
-          Tile(title: Text("Use Current Location")),
+
+          Tile(title: const Text("Change Temperature Unit(C/F)"), value: false),
+
+          Tile(title: const Text("Use Current Location"), value: false),
         ],
       ),
     );

@@ -16,8 +16,9 @@ class Inforow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(iconData,color: color,),
+      leading: Icon(iconData, color: color),
       title: Text(title),
+      textColor: Colors.white,
       trailing: Text(weatData, style: TextStyle(fontSize: 15)),
     );
   }
