@@ -12,6 +12,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   TextEditingController city = TextEditingController();
+  // TextEditingController tempunit = TextEditingController();
 
   bool isLoading = false;
   double? temp;
@@ -20,6 +21,12 @@ class _DashboardState extends State<Dashboard> {
   double? feels;
   String? humidity;
   String? wind;
+  double? farh;
+
+  // double celcius = double.parse(tempunit.text)
+  //   void unitchage() {
+  //     farh = (tempunit.hashCode * 9 / 5) + 32;
+  //   }
 
   Future<void> fetchTemp() async {
     print("Button Pressed");
@@ -42,7 +49,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -81,7 +87,7 @@ class _DashboardState extends State<Dashboard> {
                     color: Colors.white,
                     iconData: Icons.location_pin,
                     title: "City Name",
-                    
+
                     weatData: city.text == "" ? "--" : city.text.toUpperCase(),
                   ),
 
@@ -116,23 +122,66 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
-            // Expanded(
-            //   child: GridView.builder(
-            //     itemCount: 4,
-            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //       crossAxisCount: 2,
-            //     ),
-            //     itemBuilder: (context, index) {
-            //       return Container(color: Colors.red);
-            //     },
-            //   ),
-            // ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: GridView.builder(
+                  itemCount: 4,
+
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2.9,
+                    mainAxisSpacing: 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        child: Center(child: Text("humidity")),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+/*
+
+// Expanded(
+                  //   child: GridView.builder(
+                  //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  //       maxCrossAxisExtent: 2,
+                  //     ),
+                  //     itemBuilder: (context, index) {
+                  //       return ListTile();
+                  //     },
+                  //   ),
+                  // ),
+
+                  // TextField(
+                  //   controller: tempunit,
+                  //   keyboardType: TextInputType.number,
+                  //   decoration: InputDecoration(
+                  //     hintText: "Enter city name",
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(20),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Text(farh.toString() == "null" ? "null" : farh.toString()),
+
+
+*/
 
 /*
 

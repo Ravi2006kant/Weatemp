@@ -16,6 +16,7 @@ class WeatherService {
     var data = jsonDecode(
       response.body,
     ); //jsondecode will now decode the data into flutter / dart object
+    print(data);
     return {
       "temp": data['current']['temp_c'], // can show data now from here
       "weather": data['current']['condition']['text'],
