@@ -17,11 +17,13 @@ class WeatherService {
       response.body,
     ); //jsondecode will now decode the data into flutter / dart object
     print(data);
+    
     return {
       "temp": data['current']['temp_c'], // can show data now from here
       "weather": data['current']['condition']['text'],
       "feels": data['current']['feelslike_c'],
       "time": data["location"]["localtime"].split(" ")[1],
+      // "condition":data[]
     };
     // print(data['current']['humidity']);
     // print(data['current']['wind_kph']);

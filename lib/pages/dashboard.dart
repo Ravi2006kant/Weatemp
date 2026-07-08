@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:weatemp/components/gridcont.dart';
 import 'package:weatemp/components/infoRow.dart';
 import 'package:weatemp/services/weather_service.dart';
 import 'package:weatemp/theme/theme.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
-
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -46,6 +46,19 @@ class _DashboardState extends State<Dashboard> {
 
     print("fetchTemp finished");
   }
+
+  List<Map<String, dynamic>> grid = [
+    {"icon": Icons.water, "title": Text("humidity"), "value": "25%"},
+    {"icon": Icons.air, "title": Text("Wind Speed"), "value": "25 km/h"},
+    {
+      "icon": Icons.visibility_outlined,
+      "title": Text("Visibility"),
+      "value": "25km",
+    },
+    {"icon": Icons.speed, "title": Text("Pressure"), "value": "hPa"},
+  ];
+
+  // then use grid["icon"]in the listile
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +132,8 @@ class _DashboardState extends State<Dashboard> {
                     title: "Updated at",
                     weatData: time == null ? "--" : time.toString(),
                   ),
+
+                  // Inforow(iconData: , title:"WEather", weatData:)
                 ],
               ),
             ),
@@ -134,15 +149,11 @@ class _DashboardState extends State<Dashboard> {
                     mainAxisSpacing: 4,
                   ),
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        child: Center(child: Text("humidity")),
-                      ),
+                    final item = grid[index];
+                    return Gridcont(
+                      iconData: item["icon"],
+                      txt: item["title"],
+                      value: item["value"],
                     );
                   },
                 ),
