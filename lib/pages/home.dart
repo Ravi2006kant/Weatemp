@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weatemp/components/botnav.dart';
-import 'package:weatemp/components/floatButton.dart';
 import 'package:weatemp/pages/dashboard.dart';
 import 'package:weatemp/pages/forecast.dart';
 import 'package:weatemp/pages/setting.dart';
@@ -38,8 +37,6 @@ class _HomeState extends State<Home> {
         centerTitle: true,
       ),
       body: nav.elementAt(ind),
-
-      // floatingActionButton: Floatbutton(),
 
       bottomNavigationBar: Botnavigation(index: ind, ontap: itemTap),
     );

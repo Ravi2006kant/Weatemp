@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatemp/components/gridcont.dart';
+import 'package:weatemp/components/listhelo.dart';
 import 'package:weatemp/components/infoRow.dart';
 import 'package:weatemp/services/weather_service.dart';
 import 'package:weatemp/theme/theme.dart';
@@ -15,6 +16,7 @@ class _DashboardState extends State<Dashboard> {
   // TextEditingController tempunit = TextEditingController();
 
   bool isLoading = false;
+  String? cityname;
   double? temp;
   String? time;
   String? weather;
@@ -48,14 +50,26 @@ class _DashboardState extends State<Dashboard> {
   }
 
   List<Map<String, dynamic>> grid = [
-    {"icon": Icons.water, "title": Text("humidity"), "value": "25%"},
-    {"icon": Icons.air, "title": Text("Wind Speed"), "value": "25 km/h"},
     {
-      "icon": Icons.visibility_outlined,
-      "title": Text("Visibility"),
+      "icon": Icon(Icons.water, color: Colors.blueAccent.shade700),
+      "title": "humidity",
+      "value": "25%",
+    },
+    {
+      "icon": Icon(Icons.air, color: Colors.white),
+      "title": "Wind Speed",
+      "value": "25 km/h",
+    },
+    {
+      "icon": Icon(Icons.visibility_outlined, color: Colors.grey),
+      "title": "Visibility",
       "value": "25km",
     },
-    {"icon": Icons.speed, "title": Text("Pressure"), "value": "hPa"},
+    {
+      "icon": Icon(Icons.speed, color: Colors.orange),
+      "title": "Pressure",
+      "value": "hPa",
+    },
   ];
 
   // then use grid["icon"]in the listile
@@ -97,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
               child: Column(
                 children: [
                   Inforow(
-                    color: Colors.white,
+                    color: Colors.yellow,
                     iconData: Icons.location_pin,
                     title: "City Name",
 
@@ -137,26 +151,45 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: GridView.builder(
-                  itemCount: 4,
 
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 2.9,
-                    mainAxisSpacing: 4,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = grid[index];
-                    return Gridcont(
-                      iconData: item["icon"],
-                      txt: item["title"],
-                      value: item["value"],
-                    );
-                  },
-                ),
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8),
+            //     child: GridView.builder(
+            //       itemCount: 4,
+
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         crossAxisCount: 2,
+            //         childAspectRatio: 2.9,
+            //         mainAxisSpacing: 4,
+            //       ),
+            //       itemBuilder: (context, index) {
+            //         // final item = grid[index];
+
+            //         return Listhelo(
+            //           iconData: grid[index]["icon"],
+            //           txt: grid[index]["title"],
+            //           value: grid[index]["value"],
+            //         );
+            //         // return Gridcont(
+            //         //   iconData: item["icon"],
+            //         //   txt: item["title"],
+            //         //   value: item["value"],
+            //         // );
+            //       },
+            //     ),
+            //   ),
+            // ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: grid.length,
+                itemBuilder: (context, index) {
+                  return Listhelo(
+                    iconData: grid[index]["icon"],
+                    txt: grid[index]["title"],
+                    value: grid[index]["value"],
+                  );
+                },
               ),
             ),
           ],

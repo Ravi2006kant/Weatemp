@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatemp/components/tile.dart';
+import 'package:weatemp/services/weather_service.dart';
 import 'package:weatemp/theme/theme_provider.dart';
 
 class Setting extends StatelessWidget {
@@ -23,7 +24,13 @@ class Setting extends StatelessWidget {
 
           Tile(title: const Text("Change Temperature Unit(C/F)"), value: false),
 
-          Tile(title: const Text("Use Current Location"), value: false),
+          Tile(
+            title: const Text("Use Current Location"),
+            onChange: (value) {
+              // WeatherService().weatherByLoc(latitude, longitute)
+            },
+            value: false,
+          ),
         ],
       ),
     );

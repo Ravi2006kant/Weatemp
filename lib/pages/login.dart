@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -46,19 +45,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // FirebaseFirestore.instance.collection("tasks").add({
-                        //   "title": taskController.text,
-                        // });
-                  
-                    
-                      },
-                      child: Text("Add"),
-                    ),
-
-                    
-                    // ),
+                    ElevatedButton(onPressed: () {}, child: Text("Add")),
                   ],
                 ),
               ),

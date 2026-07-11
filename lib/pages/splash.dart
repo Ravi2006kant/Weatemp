@@ -8,12 +8,3 @@ class Splash extends StatelessWidget {
     return const Placeholder();
   }
 }
-
-/*
-
-app logo 
-app name
-
-loading animation 
-
-*/

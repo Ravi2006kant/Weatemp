@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Gridcont extends StatelessWidget {
-  IconData? iconData;
+  Icon? iconData;
   String? txt;
   String? value;
 
@@ -18,8 +18,11 @@ class Gridcont extends StatelessWidget {
         ),
         child: Center(
           child: ListTile(
-            leading: Icon(iconData),
-            title: Text(txt ?? "--"),
+            leading: iconData,
+            title: Text(
+              txt ?? "--",
+              style: TextStyle(color: Colors.white, fontSize: 10),
+            ),
             trailing: Text(value ?? "--"),
           ),
         ),
