@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weatemp/components/floatButton.dart';
 import 'package:weatemp/components/gridcont.dart';
 import 'package:weatemp/components/listhelo.dart';
 import 'package:weatemp/components/infoRow.dart';
+import 'package:weatemp/services/location_service.dart';
 import 'package:weatemp/services/weather_service.dart';
 import 'package:weatemp/theme/theme.dart';
 
@@ -13,10 +15,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   TextEditingController city = TextEditingController();
-  // TextEditingController tempunit = TextEditingController();
 
   bool isLoading = false;
-  String? cityname;
   double? temp;
   String? time;
   String? weather;
@@ -29,24 +29,30 @@ class _DashboardState extends State<Dashboard> {
   //   void unitchage() {
   //     farh = (tempunit.hashCode * 9 / 5) + 32;
   //   }
-
-  Future<void> fetchTemp() async {
-    print("Button Pressed");
-
-    final result = await WeatherService().getWeather(city.text);
-
-    print(result);
+  Future location() async {
+    final position = await LocationService().getCurrentLocation();
+    final result = await WeatherService().weatherByLoc(
+      position.latitude,
+      position.longitude,
+    );
 
     setState(() {
       temp = result['temp'];
       weather = result['weather'];
       feels = result['feels'];
       time = result['time'];
-
-      print("setState called");
     });
+  }
 
-    print("fetchTemp finished");
+  Future<void> fetchTemp() async {
+    final result = await WeatherService().getWeather(city.text);
+
+    setState(() {
+      temp = result['temp'];
+      weather = result['weather'];
+      feels = result['feels'];
+      time = result['time'];
+    });
   }
 
   List<Map<String, dynamic>> grid = [
@@ -72,13 +78,13 @@ class _DashboardState extends State<Dashboard> {
     },
   ];
 
-  // then use grid["icon"]in the listile
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: .end,
+          crossAxisAlignment: .end,
           children: [
             Row(
               children: [
@@ -112,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   Inforow(
                     color: Colors.yellow,
-                    iconData: Icons.location_pin,
+                    iconData: Icons.location_city_rounded,
                     title: "City Name",
 
                     weatData: city.text == "" ? "--" : city.text.toUpperCase(),
@@ -195,6 +201,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+      floatingActionButton: Floatbutton(tap: () => location()),
     );
   }
 }

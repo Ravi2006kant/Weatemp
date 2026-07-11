@@ -26,10 +26,10 @@ class Setting extends StatelessWidget {
 
           Tile(
             title: const Text("Use Current Location"),
-            onChange: (value) {
-              // WeatherService().weatherByLoc(latitude, longitute)
-            },
             value: false,
+            onChange: (value) {
+              value = !value;
+            },
           ),
         ],
       ),
