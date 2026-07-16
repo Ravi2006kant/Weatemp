@@ -21,14 +21,12 @@ class _DashboardState extends State<Dashboard> {
   String? time;
   String? weather;
   double? feels;
-  String? humidity;
+  int? humidity;
   String? wind;
-  double? farh;
+  String? farh;
+  String? visibility;
+  String? pressure;
 
-  // double celcius = double.parse(tempunit.text)
-  //   void unitchage() {
-  //     farh = (tempunit.hashCode * 9 / 5) + 32;
-  //   }
   Future location() async {
     final position = await LocationService().getCurrentLocation();
     final result = await WeatherService().weatherByLoc(
@@ -52,14 +50,19 @@ class _DashboardState extends State<Dashboard> {
       weather = result['weather'];
       feels = result['feels'];
       time = result['time'];
+      humidity = result['humidity'];
+      // wind = result['wind'];
+      // visibility = result['visibility'];
+      // pressure = result['pressure'];
+      print(humidity);
     });
   }
 
-  List<Map<String, dynamic>> grid = [
+  late List<Map<String, dynamic>> grid = [
     {
       "icon": Icon(Icons.water, color: Colors.blueAccent.shade700),
-      "title": "humidity",
-      "value": "25%",
+      "title": "Humidity",
+      "value":"humidity",
     },
     {
       "icon": Icon(Icons.air, color: Colors.white),
@@ -82,123 +85,104 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: .end,
-          crossAxisAlignment: .end,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: TextField(
-                      controller: city,
-                      decoration: InputDecoration(
-                        hintText: "Enter city name",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: .end,
+            crossAxisAlignment: .end,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        controller: city,
+                        decoration: InputDecoration(
+                          hintText: "Enter city name",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-
-                IconButton(
-                  onPressed: fetchTemp,
-                  color: Colors.blue,
-                  icon: const Icon(Icons.arrow_forward_ios_sharp),
-                ),
-              ],
-            ),
-
-            Card(
-              color: Theme.of(context).colorScheme.primary,
-              margin: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Inforow(
-                    color: Colors.yellow,
-                    iconData: Icons.location_city_rounded,
-                    title: "City Name",
-
-                    weatData: city.text == "" ? "--" : city.text.toUpperCase(),
+          
+                  IconButton(
+                    onPressed: fetchTemp,
+                    color: Colors.blue,
+                    icon: const Icon(Icons.arrow_forward_ios_sharp),
                   ),
-
-                  Inforow(
-                    color: Colors.red,
-                    iconData: Icons.thermostat_rounded,
-                    title: "Temperature",
-                    weatData: temp == null ? "--" : temp.toString(),
-                  ),
-
-                  Inforow(
-                    color: Colors.lightBlue,
-                    iconData: Icons.cloud_rounded,
-                    title: "Weather",
-                    weatData: weather == null ? "--" : weather.toString(),
-                    //add a weather emoji as well from this one
-                  ),
-
-                  Inforow(
-                    color: Colors.amber,
-                    iconData: Icons.stacked_line_chart_rounded,
-                    title: "Feels like",
-                    weatData: feels == null ? "--" : feels.toString(),
-                  ),
-
-                  Inforow(
-                    color: Colors.deepPurple.shade400,
-                    iconData: Icons.alarm_outlined,
-                    title: "Updated at",
-                    weatData: time == null ? "--" : time.toString(),
-                  ),
-
-                  // Inforow(iconData: , title:"WEather", weatData:)
                 ],
               ),
-            ),
-
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8),
-            //     child: GridView.builder(
-            //       itemCount: 4,
-
-            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //         crossAxisCount: 2,
-            //         childAspectRatio: 2.9,
-            //         mainAxisSpacing: 4,
-            //       ),
-            //       itemBuilder: (context, index) {
-            //         // final item = grid[index];
-
-            //         return Listhelo(
-            //           iconData: grid[index]["icon"],
-            //           txt: grid[index]["title"],
-            //           value: grid[index]["value"],
-            //         );
-            //         // return Gridcont(
-            //         //   iconData: item["icon"],
-            //         //   txt: item["title"],
-            //         //   value: item["value"],
-            //         // );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: grid.length,
-                itemBuilder: (context, index) {
-                  return Listhelo(
-                    iconData: grid[index]["icon"],
-                    txt: grid[index]["title"],
-                    value: grid[index]["value"],
-                  );
-                },
+          
+              Card(
+                color: Theme.of(context).colorScheme.primary,
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Inforow(
+                      color: Colors.yellow,
+                      iconData: Icons.location_city_rounded,
+                      title: "City Name",
+          
+                      weatData: city.text == "" ? "--" : city.text.toUpperCase(),
+                    ),
+          
+                    Inforow(
+                      color: Colors.red,
+                      iconData: Icons.thermostat_rounded,
+                      title: "Temperature",
+                      weatData: temp == null ? "--" : temp.toString(),
+                    ),
+          
+                    Inforow(
+                      color: Colors.lightBlue,
+                      iconData: Icons.cloud_rounded,
+                      title: "Weather",
+                      weatData: weather == null ? "--" : weather.toString(),
+                      //add a weather emoji as well from this one
+                    ),
+          
+                    Inforow(
+                      color: Colors.amber,
+                      iconData: Icons.stacked_line_chart_rounded,
+                      title: "Feels like",
+                      weatData: feels == null ? "--" : feels.toString(),
+                    ),
+          
+                    Inforow(
+                      color: Colors.deepPurple.shade400,
+                      iconData: Icons.alarm_outlined,
+                      title: "Updated at",
+                      weatData: time == null ? "--" : time.toString(),
+                    ),
+          
+                    // Inforow(iconData: , title:"WEather", weatData:)
+                  ],
+                ),
               ),
-            ),
-          ],
+          
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 7),
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap:true,
+                  itemCount: grid.length,
+                  itemBuilder: (context, index) {
+                    return Listhelo(
+                      iconData: grid[index]["icon"],
+                      txt: grid[index]["title"],
+                      value: grid[index]["value"],
+                      
+                    );
+                    
+                  },
+                ),
+              ),
+              
+            ],
+          ),
         ),
       ),
       floatingActionButton: Floatbutton(tap: () => location()),
@@ -254,3 +238,35 @@ mon weather temp
 sat weather temp
 
 */
+  // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8),
+            //     child: GridView.builder(
+            //       itemCount: 4,
+
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         crossAxisCount: 2,
+            //         childAspectRatio: 2.2,
+            //         mainAxisSpacing: 4,
+            //       ),
+            //       itemBuilder: (context, index) {
+            //         // final item = grid[index];
+
+            //         // return Listhelo(
+            //         //   iconData: grid[index]["icon"],
+            //         //   txt: grid[index]["title"],
+            //         //   value: grid[index]["value"],
+            //         // );
+            //         return Gridcont(
+            //           iconData: grid[index]["icon"],
+            //           txt: grid[index]["title"],
+            //           value: grid[index]["value"],
+            //         );
+            //       },
+            //     ),
+            //   ),
+            // ),
+  // double celcius = double.parse(tempunit.text)
+  //   void unitchage() {
+  //     farh = (tempunit.hashCode * 9 / 5) + 32;
+  //   }

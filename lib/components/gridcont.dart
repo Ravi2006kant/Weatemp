@@ -17,16 +17,34 @@ class Gridcont extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
         child: Center(
-          child: ListTile(
-            leading: iconData,
-            title: Text(
-              txt ?? "--",
-              style: TextStyle(color: Colors.white, fontSize: 10),
+          child: Column(
+           
+            children: [
+
+            Center(
+              child: Row(children: [
+                ?iconData,
+                SizedBox(width: 5,),
+               Text(
+                txt ?? "--",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              ],),
             ),
-            trailing: Text(value ?? "--"),
-          ),
+            SizedBox(height: 5,),
+             
+            Text(value ?? "--"),
+            ],)
         ),
       ),
     );
   }
 }
+// ListTile(
+//             leading: iconData,
+//             title: Text(
+//               txt ?? "--",
+//               style: TextStyle(color: Colors.white, fontSize: 10),
+//             ),
+//             trailing: Text(value ?? "--"),
+//           ),
