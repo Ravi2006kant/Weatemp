@@ -10,13 +10,14 @@ class Floatbutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: Colors.white,
       onPressed: tap,
-      splashColor: Colors.white,
+      splashColor: Colors.blue,
       shape: CircleBorder(),
       elevation: 0,
       heroTag: "search",
       tooltip: "current location",
-      child: Icon(Icons.location_on, color: Colors.white, fontWeight: .bold),
+      child: Icon(Icons.location_on, color: Colors.blue, fontWeight: .bold),
     );
   }
 }

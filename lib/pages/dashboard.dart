@@ -15,17 +15,16 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   TextEditingController city = TextEditingController();
-
+  var farh;
   bool isLoading = false;
   double? temp;
   String? time;
   String? weather;
   double? feels;
-  int? humidity;
-  String? wind;
-  String? farh;
-  String? visibility;
-  String? pressure;
+  var humidity;
+  double? wind;
+  var visibility;
+  var pressure;
 
   Future location() async {
     final position = await LocationService().getCurrentLocation();
@@ -39,6 +38,10 @@ class _DashboardState extends State<Dashboard> {
       weather = result['weather'];
       feels = result['feels'];
       time = result['time'];
+       humidity = result['humidity'];
+      wind = result['wind'];
+      visibility = result['visibility'];
+      pressure = result['pressure'];
     });
   }
 
@@ -51,38 +54,36 @@ class _DashboardState extends State<Dashboard> {
       feels = result['feels'];
       time = result['time'];
       humidity = result['humidity'];
-      // wind = result['wind'];
-      // visibility = result['visibility'];
-      // pressure = result['pressure'];
-      print(humidity);
+      wind = result['wind'];
+      visibility = result['visibility'];
+      pressure = result['pressure'];
     });
   }
 
-  late List<Map<String, dynamic>> grid = [
-    {
-      "icon": Icon(Icons.water, color: Colors.blueAccent.shade700),
-      "title": "Humidity",
-      "value":"humidity",
-    },
-    {
-      "icon": Icon(Icons.air, color: Colors.white),
-      "title": "Wind Speed",
-      "value": "25 km/h",
-    },
-    {
-      "icon": Icon(Icons.visibility_outlined, color: Colors.grey),
-      "title": "Visibility",
-      "value": "25km",
-    },
-    {
-      "icon": Icon(Icons.speed, color: Colors.orange),
-      "title": "Pressure",
-      "value": "hPa",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> grid = [
+      {
+        "icon": Icon(Icons.water, color: Colors.blueAccent.shade700),
+        "title": "Humidity",
+        "value": humidity == null ? "--" : "$humidity%",
+      },
+      {
+        "icon": Icon(Icons.air, color: Colors.white),
+        "title": "Wind Speed",
+        "value": wind == null ? "--" : "$wind km/h",
+      },
+      {
+        "icon": Icon(Icons.visibility_outlined, color: Colors.grey),
+        "title": "Visibility",
+        "value": visibility == null ? "--" : "$visibility km",
+      },
+      {
+        "icon": Icon(Icons.speed, color: Colors.orange),
+        "title": "Pressure",
+        "value": pressure == null ? "--" : "$pressure hPa",
+      },
+    ];
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -93,7 +94,6 @@ class _DashboardState extends State<Dashboard> {
               Row(
                 children: [
                   Expanded(
-                    
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: TextField(
@@ -107,7 +107,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-          
+
                   IconButton(
                     onPressed: fetchTemp,
                     color: Colors.blue,
@@ -115,7 +115,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ],
               ),
-          
+
               Card(
                 color: Theme.of(context).colorScheme.primary,
                 margin: EdgeInsets.all(10),
@@ -125,62 +125,60 @@ class _DashboardState extends State<Dashboard> {
                       color: Colors.yellow,
                       iconData: Icons.location_city_rounded,
                       title: "City Name",
-          
-                      weatData: city.text == "" ? "--" : city.text.toUpperCase(),
+
+                      weatData: city.text == ""
+                          ? "--"
+                          : city.text.toUpperCase(),
                     ),
-          
+
                     Inforow(
                       color: Colors.red,
                       iconData: Icons.thermostat_rounded,
                       title: "Temperature",
                       weatData: temp == null ? "--" : temp.toString(),
                     ),
-          
+
                     Inforow(
                       color: Colors.lightBlue,
                       iconData: Icons.cloud_rounded,
                       title: "Weather",
+
                       weatData: weather == null ? "--" : weather.toString(),
                       //add a weather emoji as well from this one
                     ),
-          
+
                     Inforow(
                       color: Colors.amber,
                       iconData: Icons.stacked_line_chart_rounded,
                       title: "Feels like",
                       weatData: feels == null ? "--" : feels.toString(),
                     ),
-          
+
                     Inforow(
                       color: Colors.deepPurple.shade400,
                       iconData: Icons.alarm_outlined,
                       title: "Updated at",
                       weatData: time == null ? "--" : time.toString(),
                     ),
-          
-                    // Inforow(iconData: , title:"WEather", weatData:)
                   ],
                 ),
               ),
-          
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 7),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap:true,
+                  shrinkWrap: true,
                   itemCount: grid.length,
                   itemBuilder: (context, index) {
                     return Listhelo(
                       iconData: grid[index]["icon"],
                       txt: grid[index]["title"],
                       value: grid[index]["value"],
-                      
                     );
-                    
                   },
                 ),
               ),
-              
             ],
           ),
         ),

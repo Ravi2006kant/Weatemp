@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
 
 class Listhelo extends StatelessWidget {
-  Icon? iconData;
-  String? txt;
-  String value;
+  Icon iconData;
+  String txt;
+  String value ;
 
-  Listhelo({super.key, this.iconData, this.txt, required this.value});
+  Listhelo({
+    super.key,
+    required this.iconData,
+    required this.txt,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +29,16 @@ class Listhelo extends StatelessWidget {
             SizedBox(width: 10),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(txt ?? "--", style: TextStyle(color: Colors.white)),
+              child: Text(txt, style: TextStyle(color: Colors.white)),
             ),
-            SizedBox(width: 10),
-            Text(value , style: TextStyle(color: Colors.white)),
-            
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 25),
+              child: Text(value, style: TextStyle(color: Colors.white)),
+            ),
           ],
-          
         ),
       ),
-      
     );
   }
 }

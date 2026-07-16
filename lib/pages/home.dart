@@ -43,9 +43,9 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
       ),
-      body: nav.elementAt(ind),
+      body: SafeArea(child: nav[ind]),
 
-      bottomNavigationBar: Botnavigation(index: ind, ontap: itemTap),
+      bottomNavigationBar: Botnavigation(indexc: ind, ontap: itemTap),
     );
   }
 }

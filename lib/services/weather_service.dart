@@ -16,7 +16,6 @@ class WeatherService {
     var data = jsonDecode(
       response.body,
     ); //jsondecode will now decode the data into flutter / dart object
-    print(data);
 
     return {
       "temp": data['current']['temp_c'], // can show data now from here
@@ -26,7 +25,7 @@ class WeatherService {
       "humidity": data['current']['humidity'],
       "wind": data['current']['wind_kph'],
       "visibility": data['current']['vis_km'],
-      "pressure": data['current']['condition']['text'],
+      "pressure": data['current']['pressure_mb'],
     };
   }
 
@@ -51,6 +50,10 @@ class WeatherService {
       "weather": data['current']['condition']['text'],
       "feels": data['current']['feelslike_c'],
       "time": data["location"]["localtime"].split(" ")[1],
+      "humidity": data['current']['humidity'],
+      "wind": data['current']['wind_kph'],
+      "visibility": data['current']['vis_km'],
+      "pressure": data['current']['pressure_mb'],
       // "condition":data[]
     };
   }
@@ -76,7 +79,6 @@ class WeatherService {
         "time": hours[i]["time"].toString().substring(11, 16),
         "temp": hours[i]["temp_c"],
         "weather": hours[i]["condition"]["text"],
-
         "icon": "https:${hours[i]["condition"]["icon"]}",
       });
 
