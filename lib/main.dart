@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weatemp/pages/home.dart';
+import 'package:weatemp/providers/weather_provider.dart';
 import 'package:weatemp/theme/theme_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => Weatherprovider()),
+      ],
       child: const MainApp(),
     ),
   );

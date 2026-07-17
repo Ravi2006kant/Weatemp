@@ -1,64 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:weatemp/services/weather_service.dart';
+import 'package:provider/provider.dart';
+import 'package:weatemp/providers/weather_provider.dart';
 
-class Forecast extends StatefulWidget {
+class Forecast extends StatelessWidget {
   const Forecast({super.key});
 
   @override
-  State<Forecast> createState() => _ForecastState();
-}
-
-class _ForecastState extends State<Forecast> {
-  int? time;
-  double? temp;
-
-  List<Map<String, dynamic>> forecast = [];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    fetchForecast();
-  }
-
-  Future<void> fetchForecast() async {
-    forecast = await WeatherService().forecast("Delhi");
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: const Text(
-              "Today's Forecast",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-            ),
-          ),
+    final provider = context.watch<Weatherprovider>();
 
-          Expanded(
-            child: ListView.separated(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Today's Forecast"),
+        centerTitle: true,
+      ),
+      body: provider.forecast.isEmpty
+          ? const Center(
+              child: Text(
+                "Search a city first",
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          : ListView.separated(
+              itemCount: provider.forecast.length,
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.grey.shade700,
+                indent: 15,
+                endIndent: 15,
+              ),
               itemBuilder: (context, index) {
+                final item = provider.forecast[index];
+
                 return ListTile(
-                  textColor: Theme.of(context).colorScheme.primary,
-                  leading: Image.network(forecast[index]["icon"],width: 40,height: 40,),
-                  title:Text(forecast[index]["time"]) ,
-                  subtitle:Text(forecast[index]["weather"]) ,
-                  trailing: Text("${forecast[index]["temp"]}*C"),
+                  leading: Image.network(
+                    item["icon"],
+                    width: 40,
+                    height: 40,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.cloud);
+                    },
+                  ),
+                  title: Text(
+                    item["time"],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: Text(item["weather"]),
+                  trailing: Text(
+                    "${item["temp"]}°C",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 );
               },
-              separatorBuilder: (context, index) => Divider(
-                color: Colors.grey.shade800,
-                endIndent: 10,
-                indent: 10,
-              ),
-              itemCount: forecast.length,
             ),
-          ),
-        ],
-      ),
     );
   }
 }

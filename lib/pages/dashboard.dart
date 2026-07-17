@@ -1,95 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weatemp/components/floatButton.dart';
-import 'package:weatemp/components/gridcont.dart';
-import 'package:weatemp/components/listhelo.dart';
 import 'package:weatemp/components/infoRow.dart';
+import 'package:weatemp/components/listhelo.dart';
+import 'package:weatemp/providers/weather_provider.dart';
 import 'package:weatemp/services/location_service.dart';
 import 'package:weatemp/services/weather_service.dart';
-import 'package:weatemp/theme/theme.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
+
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  TextEditingController city = TextEditingController();
-  var farh;
-  bool isLoading = false;
-  double? temp;
-  String? time;
-  String? weather;
-  double? feels;
-  var humidity;
-  double? wind;
-  var visibility;
-  var pressure;
+  final TextEditingController city = TextEditingController();
 
-  Future location() async {
+  Future<void> fetchTemp() async {
+    await context.read<Weatherprovider>().searchCity(city.text);
+  }
+
+  Future<void> location() async {
     final position = await LocationService().getCurrentLocation();
+
     final result = await WeatherService().weatherByLoc(
       position.latitude,
       position.longitude,
     );
 
-    setState(() {
-      temp = result['temp'];
-      weather = result['weather'];
-      feels = result['feels'];
-      time = result['time'];
-       humidity = result['humidity'];
-      wind = result['wind'];
-      visibility = result['visibility'];
-      pressure = result['pressure'];
-    });
-  }
+    final provider = context.read<Weatherprovider>();
 
-  Future<void> fetchTemp() async {
-    final result = await WeatherService().getWeather(city.text);
+    provider.currentWeather = result;
+    provider.forecast = await WeatherService().forecast(
+      result["city"],
+    );
 
-    setState(() {
-      temp = result['temp'];
-      weather = result['weather'];
-      feels = result['feels'];
-      time = result['time'];
-      humidity = result['humidity'];
-      wind = result['wind'];
-      visibility = result['visibility'];
-      pressure = result['pressure'];
-    });
+    provider.notifyListeners();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<Weatherprovider>();
+
     List<Map<String, dynamic>> grid = [
       {
         "icon": Icon(Icons.water, color: Colors.blueAccent.shade700),
         "title": "Humidity",
-        "value": humidity == null ? "--" : "$humidity%",
+        "value": provider.currentWeather.isEmpty
+            ? "--"
+            : "${provider.currentWeather["humidity"]}%",
       },
       {
-        "icon": Icon(Icons.air, color: Colors.white),
+        "icon": const Icon(Icons.air, color: Colors.white),
         "title": "Wind Speed",
-        "value": wind == null ? "--" : "$wind km/h",
+        "value": provider.currentWeather.isEmpty
+            ? "--"
+            : "${provider.currentWeather["wind"]} km/h",
       },
       {
-        "icon": Icon(Icons.visibility_outlined, color: Colors.grey),
+        "icon": const Icon(Icons.visibility_outlined, color: Colors.grey),
         "title": "Visibility",
-        "value": visibility == null ? "--" : "$visibility km",
+        "value": provider.currentWeather.isEmpty
+            ? "--"
+            : "${provider.currentWeather["visibility"]} km",
       },
       {
-        "icon": Icon(Icons.speed, color: Colors.orange),
+        "icon": const Icon(Icons.speed, color: Colors.orange),
         "title": "Pressure",
-        "value": pressure == null ? "--" : "$pressure hPa",
+        "value": provider.currentWeather.isEmpty
+            ? "--"
+            : "${provider.currentWeather["pressure"]} hPa",
       },
     ];
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: .end,
-            crossAxisAlignment: .end,
             children: [
               Row(
                 children: [
@@ -107,68 +95,71 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-
                   IconButton(
                     onPressed: fetchTemp,
-                    color: Colors.blue,
                     icon: const Icon(Icons.arrow_forward_ios_sharp),
+                    color: Colors.blue,
                   ),
                 ],
               ),
 
               Card(
-                color: Theme.of(context).colorScheme.primary,
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Inforow(
                       color: Colors.yellow,
                       iconData: Icons.location_city_rounded,
                       title: "City Name",
-
-                      weatData: city.text == ""
+                      weatData: provider.currentWeather.isEmpty
                           ? "--"
                           : city.text.toUpperCase(),
                     ),
 
                     Inforow(
                       color: Colors.red,
-                      iconData: Icons.thermostat_rounded,
+                      iconData: Icons.thermostat,
                       title: "Temperature",
-                      weatData: temp == null ? "--" : temp.toString(),
+                      weatData: provider.currentWeather.isEmpty
+                          ? "--"
+                          : "${provider.currentWeather["temp"]} °C",
                     ),
 
                     Inforow(
                       color: Colors.lightBlue,
-                      iconData: Icons.cloud_rounded,
+                      iconData: Icons.cloud,
                       title: "Weather",
-
-                      weatData: weather == null ? "--" : weather.toString(),
-                      //add a weather emoji as well from this one
+                      weatData: provider.currentWeather.isEmpty
+                          ? "--"
+                          : provider.currentWeather["weather"].toString(),
                     ),
 
                     Inforow(
                       color: Colors.amber,
                       iconData: Icons.stacked_line_chart_rounded,
-                      title: "Feels like",
-                      weatData: feels == null ? "--" : feels.toString(),
+                      title: "Feels Like",
+                      weatData: provider.currentWeather.isEmpty
+                          ? "--"
+                          : "${provider.currentWeather["feels"]} °C",
                     ),
 
                     Inforow(
-                      color: Colors.deepPurple.shade400,
-                      iconData: Icons.alarm_outlined,
-                      title: "Updated at",
-                      weatData: time == null ? "--" : time.toString(),
+                      color: Colors.deepPurple,
+                      iconData: Icons.access_time,
+                      title: "Updated At",
+                      weatData: provider.currentWeather.isEmpty
+                          ? "--"
+                          : provider.currentWeather["time"].toString(),
                     ),
                   ],
                 ),
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: grid.length,
                   itemBuilder: (context, index) {
                     return Listhelo(
@@ -183,88 +174,9 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      floatingActionButton: Floatbutton(tap: () => location()),
+      floatingActionButton: Floatbutton(
+        tap: location,
+      ),
     );
   }
 }
-
-/*
-
-// Expanded(
-                  //   child: GridView.builder(
-                  //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  //       maxCrossAxisExtent: 2,
-                  //     ),
-                  //     itemBuilder: (context, index) {
-                  //       return ListTile();
-                  //     },
-                  //   ),
-                  // ),
-
-                  // TextField(
-                  //   controller: tempunit,
-                  //   keyboardType: TextInputType.number,
-                  //   decoration: InputDecoration(
-                  //     hintText: "Enter city name",
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(20),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Text(farh.toString() == "null" ? "null" : farh.toString()),
-
-
-*/
-
-/*
-
- Text("weather" + "$weather"),
-          Text("Feels like" + "$feels"),
-          Divider(),
-          Text("humidity" + "$humidity"),
-          Text("wind" + "$wind"),
-          Text("Visibility"),
-
-page 3 search city screen 
-
-london tokyo mumbai
-
-page 4 forecast screen
-
-mon weather temp
-
-sat weather temp
-
-*/
-  // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8),
-            //     child: GridView.builder(
-            //       itemCount: 4,
-
-            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //         crossAxisCount: 2,
-            //         childAspectRatio: 2.2,
-            //         mainAxisSpacing: 4,
-            //       ),
-            //       itemBuilder: (context, index) {
-            //         // final item = grid[index];
-
-            //         // return Listhelo(
-            //         //   iconData: grid[index]["icon"],
-            //         //   txt: grid[index]["title"],
-            //         //   value: grid[index]["value"],
-            //         // );
-            //         return Gridcont(
-            //           iconData: grid[index]["icon"],
-            //           txt: grid[index]["title"],
-            //           value: grid[index]["value"],
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-  // double celcius = double.parse(tempunit.text)
-  //   void unitchage() {
-  //     farh = (tempunit.hashCode * 9 / 5) + 32;
-  //   }

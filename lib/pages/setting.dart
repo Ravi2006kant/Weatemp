@@ -22,7 +22,7 @@ class Setting extends StatelessWidget {
             },
           ),
 
-          Tile(title: const Text("Change Temperature Unit(C/F)"), value: false),
+          // Tile(title: const Text("Change Temperature Unit(C/F)"), value: false),
 
           
         ],
