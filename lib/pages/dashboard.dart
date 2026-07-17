@@ -32,9 +32,7 @@ class _DashboardState extends State<Dashboard> {
     final provider = context.read<Weatherprovider>();
 
     provider.currentWeather = result;
-    provider.forecast = await WeatherService().forecast(
-      result["city"],
-    );
+    provider.forecast = await WeatherService().forecast(result["city"]);
 
     provider.notifyListeners();
   }
@@ -104,6 +102,8 @@ class _DashboardState extends State<Dashboard> {
               ),
 
               Card(
+                color: Theme.of(context).colorScheme.primary,
+
                 margin: const EdgeInsets.all(10),
                 child: Column(
                   children: [
@@ -174,9 +174,62 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      floatingActionButton: Floatbutton(
-        tap: location,
-      ),
+      floatingActionButton: Floatbutton(tap: location),
     );
   }
 }
+
+
+
+/*
+
+
+ Card(
+                color: Theme.of(context).colorScheme.primary,
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Inforow(
+                      color: Colors.yellow,
+                      iconData: Icons.location_city_rounded,
+                      title: "City Name",
+
+                      weatData: city.text == ""
+                          ? "--"
+                          : city.text.toUpperCase(),
+                    ),
+
+                    Inforow(
+                      color: Colors.red,
+                      iconData: Icons.thermostat_rounded,
+                      title: "Temperature",
+                      weatData: temp == null ? "--" : temp.toString(),
+                    ),
+
+                    Inforow(
+                      color: Colors.lightBlue,
+                      iconData: Icons.cloud_rounded,
+                      title: "Weather",
+
+                      weatData: weather == null ? "--" : weather.toString(),
+                      //add a weather emoji as well from this one
+                    ),
+
+                    Inforow(
+                      color: Colors.amber,
+                      iconData: Icons.stacked_line_chart_rounded,
+                      title: "Feels like",
+                      weatData: feels == null ? "--" : feels.toString(),
+                    ),
+
+                    Inforow(
+                      color: Colors.deepPurple.shade400,
+                      iconData: Icons.alarm_outlined,
+                      title: "Updated at",
+                      weatData: time == null ? "--" : time.toString(),
+                    ),
+                  ],
+                ),
+              ),
+
+*/
